@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+
 import { render } from 'react-dom';
 import Hello from './Hello';
 import './style.css';
@@ -14,7 +15,7 @@ import './style.css';
   }
 
   componentDidMount() {
-    fetch("https://jsonplaceholder.typicode.com/posts")
+    fetch("https://reqres.in/api/unknown")
       .then(res => res.json())
       .then(
        
@@ -24,6 +25,7 @@ import './style.css';
             items: result
             
           });
+        
          },
         
          
@@ -37,12 +39,13 @@ import './style.css';
           });
         }
       )
+      
     
   }
 
   render() {
     const { error, isLoaded, items } = this.state;
-  
+    console.log(items);
     if (error) {
       return <div>Error: {error.message}</div>;
     } else if (!isLoaded) {
@@ -50,13 +53,9 @@ import './style.css';
     } else {
      
       return (
-  <div>
-   {items.map(user => (
-            <div key={user.id}>
-             <h3> {user.title} </h3>
-             <p> {user.body} </p>
-            </div>
-          ))}
+  <div className="container">
+  <Hello name={items}  />
+
   </div>
       );
     }
@@ -65,4 +64,9 @@ import './style.css';
 
 render(<App />, document.getElementById('root'));
 
-  
+  //  {items.map(user => (
+  //           <div key={user.id}>
+  //            <h3> {user.title} </h3>
+  //            <p> {user.body} </p>
+  //           </div>
+  //         ))}
