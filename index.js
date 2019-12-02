@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import { render } from 'react-dom';
 import Hello from './Hello';
+import Header from './Header';
 import './style.css';
  class App extends React.Component {
   constructor(props) {
@@ -15,7 +16,7 @@ import './style.css';
   }
 
   componentDidMount() {
-    fetch("https://reqres.in/api/unknown")
+    fetch("https://digit-api.digit.in/v1/article/41688?lang=en")
       .then(res => res.json())
       .then(
        
@@ -45,7 +46,7 @@ import './style.css';
 
   render() {
     const { error, isLoaded, items } = this.state;
-    console.log(items);
+   // console.log(items);
     if (error) {
       return <div>Error: {error.message}</div>;
     } else if (!isLoaded) {
@@ -54,8 +55,8 @@ import './style.css';
      
       return (
   <div className="container">
+  <Header/>
   <Hello name={items}  />
-
   </div>
       );
     }
