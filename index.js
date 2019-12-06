@@ -1,67 +1,29 @@
-import React, { Component } from 'react';
+import React, {component,useState, useEffect } from "react";
 
-import { render } from 'react-dom';
-import Hello from './Hello';
-import Header from './Header';
-import './style.css';
- class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      error: null,
-      isLoaded: false,
-      items: []
-    };
-       
+const  App = () => {
+  const [hasError, setErrors] = useState(false);
+  const [planets, setPlanets] = useState({});
+
+  async function fetchData() {
+    const res = await fetch("https://swapi.co/api/planets/4/");
+    res
+      .json()
+      .then(res => setPlanets(res))
+      .catch(err => setErrors(err));
   }
 
-  componentDidMount() {
-    fetch("https://digit-api.digit.in/v1/article/41688?lang=en")
-      .then(res => res.json())
-      .then(
-       
-        (result) => {
-          this.setState({
-            isLoaded: true,
-            items: result
-            
-          });
-        
-         },
-        
-         
-        // Note: it's important to handle errors here
-        // instead of a catch() block so that we don't swallow
-        // exceptions from actual bugs in components.
-        (error) => {
-          this.setState({
-            isLoaded: true,
-            error
-          });
-        }
-      )
-      
-    
-  }
+  useEffect(() => {
+    fetchData();
+  });
 
-  render() {
-    const { error, isLoaded, items } = this.state;
-   // console.log(items);
-    if (error) {
-      return <div>Error: {error.message}</div>;
-    } else if (!isLoaded) {
-      return <div>Loading...</div>;
-    } else {
-     
-      return (
-  <div className="container">
-  <Header/>
-  <Hello name={items}  />
-  </div>
-      );
-    }
-  }
-}
+  return (
+    <div>
+      <span>{JSON.stringify(planets)}</span>
+      <hr />
+      <span>Has error: {JSON.stringify(hasError)}</span>
+    </div>
+  );
+};
 
 render(<App />, document.getElementById('root'));
 
