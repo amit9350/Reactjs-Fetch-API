@@ -1,31 +1,37 @@
-import React, {component,useState, useEffect } from "react";
+import ReactDOM from "react-dom";
+import React, { useState, useEffect, ReactFragment } from "react";
 
-const  App = () => {
+
+const App = () => {
   const [hasError, setErrors] = useState(false);
   const [planets, setPlanets] = useState({});
 
-  async function fetchData() {
-    const res = await fetch("https://swapi.co/api/planets/4/");
-    res
-      .json()
-      .then(res => setPlanets(res))
-      .catch(err => setErrors(err));
-  }
-
   useEffect(() => {
+    async function fetchData() {
+      const res = await fetch("https://swapi.co/api/planets/4/");
+      res
+        .json()
+        .then(res => setPlanets(res))
+        .catch(err => setErrors(err));
+    }
+
     fetchData();
   });
 
   return (
-    <div>
+   <React.Fragment>
       <span>{JSON.stringify(planets)}</span>
       <hr />
       <span>Has error: {JSON.stringify(hasError)}</span>
-    </div>
+   </React.Fragment>
   );
 };
 
-render(<App />, document.getElementById('root'));
+
+const Planets = document.getElementById("root");
+ReactDOM.render(<App />, Planets);
+
+// render(<Planets/>,document.getElementById('root'));
 
   //  {items.map(user => (
   //           <div key={user.id}>
